@@ -6,8 +6,8 @@
     "description": "This plugin allows you to integrate your magento shop easily with eKomi system to collect verified reviews",
     "authors": [
     {
-        "name": "Heinz Schrader",
-        "email": "hschrader@ekomi-group.com"
+        "name": "Sandor Barics",
+        "email": "sbarics@ekomi.de"
     }
 ],
     "suggest": {

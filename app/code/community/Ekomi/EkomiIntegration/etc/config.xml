@@ -46,11 +46,4 @@
             </sales_order_save_after>
         </events>
     </global>
-	<default>
-		<ekomitab>
-			<ekomi_ekomiIntegration>                
-				<server_address>http://srr.ekomi.com/add-recipient</server_address>         
-			</ekomi_ekomiIntegration>      
-		</ekomitab>
-	</default>
 </config>

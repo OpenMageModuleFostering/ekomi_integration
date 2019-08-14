@@ -1,1 +1,22 @@
-<?xml version="1.0"?><config>    <acl>        <resources>            <admin>                <children>                    <system>                        <children>                            <config>                                <children>                                    <ekomitab>                                        <title>Ekomi Integration Settings</title> <!-- Used in resources tree -->                                    </ekomitab>                                </children>                            </config>                        </children>                    </system>                </children>            </admin>        </resources>    </acl></config>
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <ekomitab>
+                                        <title>Ekomi Integration Settings</title> <!-- Used in resources tree -->
+                                    </ekomitab>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
