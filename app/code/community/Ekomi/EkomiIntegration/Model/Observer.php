@@ -79,7 +79,7 @@ class Ekomi_EkomiIntegration_Model_Observer
     {
         $items = $order->getAllVisibleItems();
         foreach ($items as $item) {
-            $products[$item->getId()] = $item->getName();
+            $products[$item->getId()] = urlencode($item->getName());
         }
 
         return json_encode($products);
