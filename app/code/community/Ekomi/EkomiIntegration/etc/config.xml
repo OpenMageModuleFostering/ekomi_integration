@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Ekomi
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+-->
+<config>
+    <modules>
+        <Ekomi_EkomiIntegration>
+            <version>1.0.0.0</version>
+        </Ekomi_EkomiIntegration>
+    </modules>
+    <global>
+        <models>
+            <ekomi_ekomiIntegration>
+                <class>Ekomi_EkomiIntegration_Model</class>
+            </ekomi_ekomiIntegration>
+        </models>
+        <helpers>
+            <ekomi_ekomiIntegration>
+                <class>Ekomi_EkomiIntegration_Helper</class>
+            </ekomi_ekomiIntegration>
+        </helpers>
+        <blocks>
+            <ekomi_ekomiIntegration>
+                <class>Ekomi_EkomiIntegration_Block</class>
+            </ekomi_ekomiIntegration>
+        </blocks>
+        <events>
+            <sales_order_place_after>
+                <observers>
+                    <ekomi_ekomiIntegration_sendOrderToEkomi>
+                        <class>ekomi_ekomiIntegration/observer</class>
+                        <method>sendOrderToEkomi</method>
+                    </ekomi_ekomiIntegration_sendOrderToEkomi>
+                </observers>
+            </sales_order_place_after>
+        </events>
+    </global>
+	<default>
+		<ekomitab>
+			<ekomi_ekomiIntegration>                
+				<server_address>http://srr.ekomi.com/add-recipient</server_address>         
+			</ekomi_ekomiIntegration>      
+		</ekomitab>
+	</default>
+</config>
