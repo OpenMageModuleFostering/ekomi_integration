@@ -33,9 +33,11 @@ class Ekomi_EkomiIntegration_Model_System_Config_Source_Dropdown_Mod
 
     public function toOptionArray()
     {
-        return $mod = [['value' => 'email', 'label' => 'email'],
-            ['value' => 'sms', 'label' => 'sms'],
-            ['value' => 'fallback', 'label' => 'SMS if contact number valid, otherwise Email']];
+    	return $mod = array(
+    		array('value' => 'email', 'label' => 'email'),
+    		array('value' => 'sms', 'label' => 'sms'),
+    		array('value' => 'fallback', 'label' => 'SMS if contact number valid, otherwise Email'),
+    		);
     }
 
 }
