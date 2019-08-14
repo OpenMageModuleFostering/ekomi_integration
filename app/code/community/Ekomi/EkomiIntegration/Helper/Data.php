@@ -18,6 +18,7 @@ class Ekomi_EkomiIntegration_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_PRODUCT_REVIEWS = 'ekomitab/ekomi_ekomiIntegration/product_reviews';
     const XML_PATH_SHOP_ID = 'ekomitab/ekomi_ekomiIntegration/shop_id';
     const XML_PATH_SHOP_PASSWORD = 'ekomitab/ekomi_ekomiIntegration/shop_password';
+    const XML_PATH_ORDER_STATUS = 'ekomitab/ekomi_ekomiIntegration/order_status';
     const XML_PATH_DEBUG_RESULT= 'ekomitab/ekomi_ekomiIntegration/debug_result';
 
     public function isModuleEnabled($store = null)
@@ -38,6 +39,11 @@ class Ekomi_EkomiIntegration_Helper_Data extends Mage_Core_Helper_Abstract
     public function getShopPassword($store = null)
     {
         return Mage::getStoreConfig(self::XML_PATH_SHOP_PASSWORD, $store);
+    }
+
+    public function getOrderStatusForReviewEmail($store = null)
+    {
+        return Mage::getStoreConfig(self::XML_PATH_ORDER_STATUS, $store);
     }
 
     public function getDebugResult($store = null)

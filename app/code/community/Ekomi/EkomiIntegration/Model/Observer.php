@@ -25,13 +25,13 @@ class Ekomi_EkomiIntegration_Model_Observer
         $storeId = $order->getStoreId();
         $helper = Mage::helper('ekomi_ekomiIntegration');
 
-        if (!$helper->isModuleEnabled($storeId)) {
+        if (!$helper->isModuleEnabled($storeId) || ($helper->getOrderStatusForReviewEmail() != $order->getStatus())) {
             return;
         }
 
         try {
             $postvars = $this->getData($order, $storeId);
-
+            
             if ($postvars != '') {
                 $this->sendOrderData($postvars);
             }
@@ -61,7 +61,9 @@ class Ekomi_EkomiIntegration_Model_Observer
         );
         if ($helper->isProductReviewEnabled($storeId)){
             $fields['has_products'] = 1;
-            $fields['products_info'] = $this->getOrderProductsData($order);
+            $productsData = $this->getOrderProductsData($order, $storeId);
+            $fields['products_info'] = json_encode($productsData['product_info']);
+            $fields['products_other'] = json_encode($productsData['other']);
         }
         $postvars = '';
         $counter = 1;
@@ -75,14 +77,29 @@ class Ekomi_EkomiIntegration_Model_Observer
         return $postvars;
     }
 
-    protected function getOrderProductsData($order)
+    protected function getOrderProductsData($order, $storeId)
     {
         $items = $order->getAllVisibleItems();
         foreach ($items as $item) {
-            $products[$item->getId()] = urlencode($item->getName());
+            $product = $item ->getProduct();
+            $products['product_info'][$item->getId()] = urlencode($item->getName());
+            $product->setStoreId($storeId);
+            $canonicalUrl = $product->getUrlModel()->getUrl($product, array('_ignore_category'=>true));
+            $canonicalUrl = strstr($canonicalUrl, "?", true);
+            $productOther = array(
+                'image_url' => utf8_decode(Mage::helper('catalog/image')->init($product, 'thumbnail')),
+                'product_ids' => array(
+                    'ean' => utf8_decode($product->getSku())
+                ), // product IDs
+                'links' => array(
+                    array('rel' => 'canonical', 'type' => 'text/html',
+                        'href' => utf8_decode($canonicalUrl))
+                )
+            );
+            $products['other'][$item->getId()]['product_other'] = $productOther;
         }
 
-        return json_encode($products);
+        return $products;
     }
 
     /**

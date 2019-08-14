@@ -36,14 +36,14 @@
             </ekomi_ekomiIntegration>
         </blocks>
         <events>
-            <sales_order_place_after>
+            <sales_order_save_after>
                 <observers>
                     <ekomi_ekomiIntegration_sendOrderToEkomi>
                         <class>ekomi_ekomiIntegration/observer</class>
                         <method>sendOrderToEkomi</method>
                     </ekomi_ekomiIntegration_sendOrderToEkomi>
                 </observers>
-            </sales_order_place_after>
+            </sales_order_save_after>
         </events>
     </global>
 	<default>
