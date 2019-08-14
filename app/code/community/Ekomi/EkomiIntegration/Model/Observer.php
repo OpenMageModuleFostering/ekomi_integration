@@ -24,8 +24,10 @@ class Ekomi_EkomiIntegration_Model_Observer
         $order = $observer->getEvent()->getOrder();
         $storeId = $order->getStoreId();
         $helper = Mage::helper('ekomi_ekomiIntegration');
+        $statuses = explode(',', $helper->getOrderStatusForReviewEmail());
 
-        if (!$helper->isModuleEnabled($storeId) || ($helper->getOrderStatusForReviewEmail() != $order->getStatus())) {
+        if (!$helper->isModuleEnabled($storeId) || (is_array($statuses) &&
+                !empty($statuses) && !in_array($order->getStatus(), $statuses))) {
             return;
         }
 
@@ -89,7 +91,7 @@ class Ekomi_EkomiIntegration_Model_Observer
             $productOther = array(
                 'image_url' => utf8_decode(Mage::helper('catalog/image')->init($product, 'thumbnail')),
                 'product_ids' => array(
-                    'ean' => utf8_decode($product->getSku())
+                    'gbase' => utf8_decode($product->getSku())
                 ), // product IDs
                 'links' => array(
                     array('rel' => 'canonical', 'type' => 'text/html',
