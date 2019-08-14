@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <package>
     <name>eKomi_integration</name>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
     <stability>stable</stability>
     <license>AFL</license>
     <channel>community</channel>
     <extends/>
     <summary>This plugin allows you to integrate your magento shop easily with eKomi system to collect verified reviews. </summary>
     <description>eKomi Plugin for Magento allows you to integrate your Magento shop easily with eKomi system. This allows you to collect verified reviews, display eKomi seal on your website and get your seller ratings on Google. This helps you increase your website's click through rates, conversion rates and also, if you are running Google AdWord Campaigns, this helps in improving your Quality Score and hence your costs per click.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;eKomi Reviews and Ratings allows you to:&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;ul&amp;gt;&amp;lt;li&amp;gt;Collect order and/or product base Reviews&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Supports Simple, Configurable, Grouped and Bundle products&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Manage Reviews: our team of Customer Feedback Managers, reviews each and every review for any terms which are not allowed and also put all negative reviews in moderation.&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Publish reviews on search engines: Google, Bing, Yahoo!&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Easy Integration with eKomi.&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Get Google Seller Ratings.&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Increase Click through Rate by over 17%&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Increase conversion Rate&amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;p&amp;gt;eKomi is available in English, French, German, Spanish, Dutch, Italian, Russian and Polish&amp;lt;br /&amp;gt;If you have any questions regarding the plugin, please contact your eKomi Account Manager.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;b&amp;gt;Please note&amp;lt;/b&amp;gt; that you will need an eKomi account to use the plugin. To create an eKomi account, go to &amp;lt;a href="http://eKomi.com"&amp;gt;eKomi.com&amp;lt;/a&amp;gt;.</description>
-    <notes>Compatibility for lower versions of php.</notes>
-    <authors><author><name>Sandor Barics</name><user>sbarics</user><email>sbarics@ekomi.de</email></author></authors>
-    <date>2017-01-25</date>
-    <time>12:33:57</time>
+    <notes>Country Code auto addition.</notes>
+    <authors><author><name>Abdullah Shah</name><user>sbarics</user><email>sbarics@ekomi.de</email></author></authors>
+    <date>2017-05-29</date>
+    <time>10:02:31</time>
     <contents><target name="magecommunity"><dir name="Ekomi"><dir name="EkomiIntegration"><dir name="Helper"><file name="Data.php" hash="0ab0b327a3a36b085053fa9095671f3c"/></dir><dir name="Model"><file name="Observer.php" hash="cfcbb45ce19146fcce29ef63417f1fed"/><dir name="System"><dir name="Config"><dir name="Source"><dir name="Dropdown"><file name="Mod.php" hash="39cfbafdf917b466f5b0ce5e4d7c9ea5"/><file name="Status.php" hash="890aab8d85bd23b7a46ab8b87758a018"/></dir></dir></dir></dir><file name="Validate.php" hash="b9de4708ae8fb88f9bb9c9dd0f13abc2"/></dir><dir name="etc"><file name="adminhtml.xml" hash="bfb8c20cbf01af974039b5e71a040f71"/><file name="config.xml" hash="f3151a3f31c31cefb97959c71c2c6b02"/><file name="system.xml" hash="d4c5b8d9c2ddf5dfcb73969d2cf01c3a"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Ekomi_EkomiIntegration.xml" hash="e84d0589f7081183d0d3d1e1c66c059e"/></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.0.0</min><max>7.1.0</max></php></required></dependencies>
