@@ -14,7 +14,7 @@
      */
 class Ekomi_EkomiIntegration_Model_Observer
 {
-    protected $_apiUrl = 'srr.ekomi.com/add-recipient';
+    protected $_apiUrl = 'https://apps.ekomi.com/srr/add-recipient';
 
     /**
      * @param $observer
