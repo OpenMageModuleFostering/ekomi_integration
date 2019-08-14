@@ -130,7 +130,7 @@ class Ekomi_EkomiIntegration_Model_Observer
     {
         $items = $order->getAllVisibleItems();
         foreach ($items as $item) {
-            $product = $item->getProduct();
+            $product = Mage::getModel('catalog/product')->load($item->getProductId());
             $products['product_info'][$product->getId()] = urlencode($item->getName());
             $product->setStoreId($storeId);
             $canonicalUrl = $product->getUrlModel()->getUrl($product, array('_ignore_category' => true));
