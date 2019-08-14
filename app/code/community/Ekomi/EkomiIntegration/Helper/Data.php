@@ -19,7 +19,7 @@ class Ekomi_EkomiIntegration_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_SHOP_ID = 'ekomitab/ekomi_ekomiIntegration/shop_id';
     const XML_PATH_SHOP_PASSWORD = 'ekomitab/ekomi_ekomiIntegration/shop_password';
     const XML_PATH_ORDER_STATUS = 'ekomitab/ekomi_ekomiIntegration/order_status';
-    const XML_PATH_DEBUG_RESULT= 'ekomitab/ekomi_ekomiIntegration/debug_result';
+    const XML_PATH_REVIEW_MOD= 'ekomitab/ekomi_ekomiIntegration/review_mod';
 
     public function isModuleEnabled($store = null)
     {
@@ -46,8 +46,24 @@ class Ekomi_EkomiIntegration_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig(self::XML_PATH_ORDER_STATUS, $store);
     }
 
-    public function getDebugResult($store = null)
+    public function getReviewMod($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEBUG_RESULT, $store);
+        return Mage::getStoreConfig(self::XML_PATH_REVIEW_MOD, $store);
+    }
+
+    /**
+     * Validates E164 numbers
+     * @param $phone
+     *
+     * @return bool
+     */
+    function validateE164($phone)
+    {
+        $pattern = '/^\+?[1-9]\d{1,14}$/';
+        preg_match($pattern, $phone, $matches);
+        if (!empty($matches)) {
+            return true;
+        }
+        return false;
     }
 }

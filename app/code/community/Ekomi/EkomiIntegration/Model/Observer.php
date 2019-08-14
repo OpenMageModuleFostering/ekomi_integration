@@ -52,8 +52,8 @@ class Ekomi_EkomiIntegration_Model_Observer
     {
         $helper = Mage::helper('ekomi_ekomiIntegration');
         $scheduleTime = date('d-m-Y H:i:s', strtotime($order->getCreatedAtStoreDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)));
-
-        $fields = array('shop_id' => $helper->getShopId($storeId), 'password' => $helper->getShopPassword($storeId), 'salutation' => '',
+        $apiMode = $this->getRecipientType($order->getBillingAddress()->getTelephone(), $storeId);
+        $fields = array('recipient_type' => $apiMode, 'shop_id' => $helper->getShopId($storeId), 'password' => $helper->getShopPassword($storeId), 'salutation' => '',
             'first_name' => $order->getBillingAddress()->getFirstname(),
             'last_name' => $order->getBillingAddress()->getLastname(),
             'email' => $order->getCustomerEmail(), 'transaction_id' => $order->getIncrementId(),
@@ -173,5 +173,32 @@ class Ekomi_EkomiIntegration_Model_Observer
         } catch (Exception $e) {
             Mage::logException($e->getMessage());
         }
+    }
+
+    /**
+     * @param $telephone
+     * @param $storeId
+     * @return string
+     */
+    protected  function getRecipientType($telephone, $storeId) {
+        $helper = Mage::helper('ekomi_ekomiIntegration');
+        $reviewMod = $helper->getReviewMod($storeId);
+        $apiMode = 'email';
+        switch($reviewMod){
+            case 'sms':
+                $apiMode = 'sms';
+                break;
+            case 'email':
+                $apiMode = 'email';
+                break;
+            case 'fallback':
+                if($helper->validateE164($telephone))
+                    $apiMode = 'sms';
+                else
+                    $apiMode = 'email';
+                break;
+        }
+
+        return $apiMode;
     }
 }
