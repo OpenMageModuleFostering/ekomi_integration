@@ -25,7 +25,7 @@ class Ekomi_EkomiIntegration_Model_Observer
         $order = $observer->getEvent()->getOrder();
         $storeId = $order->getStoreId();
         $helper = Mage::helper('ekomi_ekomiIntegration');
-        $statuses = explode(',', $helper->getOrderStatusForReviewEmail());
+        $statuses = explode(',', $helper->getOrderStatusForReviewEmail($storeId));
 
         if (!$helper->isModuleEnabled($storeId) || (is_array($statuses) &&
                 !empty($statuses) && !in_array($order->getStatus(), $statuses))) {
@@ -126,7 +126,7 @@ class Ekomi_EkomiIntegration_Model_Observer
      * @param $storeId
      * @return mixed
      */
-    protected function getOrderProductsData($order, $storeId)
+    protected function  getOrderProductsData($order, $storeId)
     {
         $items = $order->getAllVisibleItems();
         foreach ($items as $item) {
