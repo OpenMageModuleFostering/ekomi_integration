@@ -17,7 +17,7 @@
 -->
 <config>
     <modules>
-        <Ekomi_EkomiIntegration>
+            <Ekomi_EkomiIntegration>
             <active>true</active>
             <codePool>community</codePool>
             <depends>

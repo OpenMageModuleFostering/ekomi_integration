@@ -14,24 +14,37 @@
      */
 class Ekomi_EkomiIntegration_Model_Validate extends Mage_Core_Model_Config_Data
 {
-     public function save()
+
+    const XML_PATH_SHOP_ID = 'ekomitab/ekomi_ekomiIntegration/shop_id';
+    const XML_PATH_SHOP_PASSWORD = 'ekomitab/ekomi_ekomiIntegration/shop_password';
+
+    public function save()
     {
-        $PostData=Mage::app()->getRequest()->getPost();
+        $ApiUrl='http://api.ekomi.de/v3/getSettings';
+        $PostData = Mage::app()->getRequest()->getPost();
+
         foreach($PostData['groups']['ekomi_ekomiIntegration'] as $fields)
         {
-           if($fields['server_address'])
-            $ServerAddress=$fields['server_address']['value'];
-           if($fields['shop_id'])
-            $ShopId=$fields['shop_id']['value'];
-           if($fields['shop_password'])
-            $ShopPassword=$fields['shop_password']['value'];
+            if($fields['shop_id'])
+                $ShopId=$fields['shop_id']['value'];
+            if($fields['shop_password'])
+                $ShopPassword=$fields['shop_password']['value'];
         }
-        if ($ShopId =='' || $ShopPassword=='') {
+
+
+        if ($ShopId == '' && $PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_id']['inherit'] == 1) {
+            $ShopId = $this->getShopId();
+        }
+
+        if ($ShopPassword == '' && $PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_password']['inherit'] == 1) {
+            $ShopPassword = $this->getPassword();
+        }
+
+        if ($ShopId =='' || $ShopPassword == '') {
             Mage::throwException('Shop ID & Password Required.');
-        }
-        else {
+        } else {
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL,"http://api.ekomi.de/v3/getSettings?auth=".$ShopId."|".$ShopPassword."&version=cust-1.0.0&type=request&charset=iso");
+                curl_setopt($ch, CURLOPT_URL,$ApiUrl."?auth=".$ShopId."|".$ShopPassword."&version=cust-1.0.0&type=request&charset=iso");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $server_output = curl_exec ($ch);
                 curl_close ($ch);
@@ -40,5 +53,21 @@ class Ekomi_EkomiIntegration_Model_Validate extends Mage_Core_Model_Config_Data
                 else
                 return parent::save(); 
            } 
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getShopId()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SHOP_ID);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getPassword()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SHOP_PASSWORD);
     }
 }

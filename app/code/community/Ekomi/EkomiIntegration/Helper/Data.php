@@ -15,7 +15,7 @@
 class Ekomi_EkomiIntegration_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_ACTIVE = 'ekomitab/ekomi_ekomiIntegration/active';
-    const XML_PATH_SERVER_ADDRESS = 'ekomitab/ekomi_ekomiIntegration/server_address';
+    const XML_PATH_PRODUCT_REVIEWS = 'ekomitab/ekomi_ekomiIntegration/product_reviews';
     const XML_PATH_SHOP_ID = 'ekomitab/ekomi_ekomiIntegration/shop_id';
     const XML_PATH_SHOP_PASSWORD = 'ekomitab/ekomi_ekomiIntegration/shop_password';
     const XML_PATH_DEBUG_RESULT= 'ekomitab/ekomi_ekomiIntegration/debug_result';
@@ -25,9 +25,9 @@ class Ekomi_EkomiIntegration_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig(self::XML_PATH_ACTIVE, $store);
     }
 
-    public function getServerAddress($store = null)
+    public function isProductReviewEnabled($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_SERVER_ADDRESS, $store);
+        return Mage::getStoreConfig(self::XML_PATH_PRODUCT_REVIEWS, $store);
     }
 
     public function getShopId($store = null)
