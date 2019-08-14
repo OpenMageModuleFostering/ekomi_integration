@@ -32,11 +32,15 @@ class Ekomi_EkomiIntegration_Model_Validate extends Mage_Core_Model_Config_Data
         }
 
 
-        if ($ShopId == '' && $PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_id']['inherit'] == 1) {
+        if ($ShopId == ''
+            && isset($PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_id']['inherit'])
+            && $PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_id']['inherit'] == 1) {
             $ShopId = $this->getShopId();
         }
 
-        if ($ShopPassword == '' && $PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_password']['inherit'] == 1) {
+        if ($ShopPassword == ''
+            && isset($PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_password']['inherit'])
+            && $PostData['groups']['ekomi_ekomiIntegration']['fields']['shop_password']['inherit'] == 1) {
             $ShopPassword = $this->getPassword();
         }
 
