@@ -100,7 +100,7 @@ class Ekomi_EkomiIntegration_Model_Observer
                         'href' => utf8_decode($canonicalUrl))
                 )
             );
-            $products['other'][$item->getId()]['product_other'] = $productOther;
+            $products['other'][$product->getId()]['product_other'] = $productOther;
         }
 
         return $products;
