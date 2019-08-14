@@ -84,12 +84,14 @@ class Ekomi_EkomiIntegration_Model_Observer
         $items = $order->getAllVisibleItems();
         foreach ($items as $item) {
             $product = $item ->getProduct();
-            $products['product_info'][$item->getId()] = urlencode($item->getName());
+            $products['product_info'][$product->getId()] = urlencode($item->getName());
             $product->setStoreId($storeId);
             $canonicalUrl = $product->getUrlModel()->getUrl($product, array('_ignore_category'=>true));
             $canonicalUrl = strstr($canonicalUrl, "?", true);
+            if($product->getThumbnail() != 'no_selection') {
+                $productOther['image_url'] = utf8_decode(Mage::helper('catalog/image')->init($product, 'thumbnail'));
+            }
             $productOther = array(
-                'image_url' => utf8_decode(Mage::helper('catalog/image')->init($product, 'thumbnail')),
                 'product_ids' => array(
                     'gbase' => utf8_decode($product->getSku())
                 ), // product IDs
