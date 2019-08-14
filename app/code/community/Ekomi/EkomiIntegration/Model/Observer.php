@@ -50,15 +50,30 @@ class Ekomi_EkomiIntegration_Model_Observer
      */
     protected function getData($order, $storeId)
     {
-        $helper = Mage::helper('ekomi_ekomiIntegration');
-        $scheduleTime = date('d-m-Y H:i:s', strtotime($order->getCreatedAtStoreDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)));
-        $apiMode = $this->getRecipientType($order->getBillingAddress()->getTelephone(), $storeId);
-        $fields = array('recipient_type' => $apiMode, 'shop_id' => $helper->getShopId($storeId), 'password' => $helper->getShopPassword($storeId), 'salutation' => '',
-            'first_name' => $order->getBillingAddress()->getFirstname(),
-            'last_name' => $order->getBillingAddress()->getLastname(),
-            'email' => $order->getCustomerEmail(), 'transaction_id' => $order->getIncrementId(),
+        $helper        = Mage::helper('ekomi_ekomiIntegration');
+        $scheduleTime  = date('d-m-Y H:i:s', strtotime($order->getCreatedAtStoreDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)));
+        $telephone     = $order->getShippingAddress()->getTelephone();
+        $country       = $order->getShippingAddress()->getCountry();
+        $recipientData = $this->getRecipientData($telephone, $country, $storeId);
+
+        if(!$recipientData['success']){
+            return '';
+        }
+
+        $apiMode = $recipientData['api-mode'];
+        $phoneNumber = $recipientData['phone-number'];
+
+        $fields = array(
+            'recipient_type' => $apiMode,
+            'shop_id' => $helper->getShopId($storeId),
+            'password' => $helper->getShopPassword($storeId),
+            'salutation' => '',
+            'first_name' => $order->getShippingAddress()->getFirstname(),
+            'last_name' => $order->getShippingAddress()->getLastname(),
+            'email' => $order->getCustomerEmail(),
+            'transaction_id' => $order->getIncrementId(),
             'transaction_time' => $scheduleTime,
-            'telephone' => $order->getBillingAddress()->getTelephone(),
+            'telephone' => $phoneNumber,
             'sender_name' => Mage::getStoreConfig('trans_email/ident_sales/name'),
             'sender_email' => Mage::getStoreConfig('trans_email/ident_sales/email')
         );
@@ -68,8 +83,8 @@ class Ekomi_EkomiIntegration_Model_Observer
             $fields['screen_name'] = $this->getCustomerScreenName($order->getCustomerId());
         } else {
             $fields['client_id'] = 'guest_oId_' . $order->getIncrementId();
-            $lname =  $order->getBillingAddress()->getLastname();
-            $fields['screen_name'] = $order->getBillingAddress()->getFirstname() . $lname[0];
+            $lname =  $order->getShippingAddress()->getLastname();
+            $fields['screen_name'] = $order->getShippingAddress()->getFirstname() . $lname[0];
         }
 
         if ($helper->isProductReviewEnabled($storeId)) {
@@ -180,25 +195,46 @@ class Ekomi_EkomiIntegration_Model_Observer
      * @param $storeId
      * @return string
      */
-    protected  function getRecipientType($telephone, $storeId) {
+    protected function getRecipientData($telephone, $country, $storeId)
+    {
         $helper = Mage::helper('ekomi_ekomiIntegration');
         $reviewMod = $helper->getReviewMod($storeId);
-        $apiMode = 'email';
-        switch($reviewMod){
-            case 'sms':
-                $apiMode = 'sms';
-                break;
-            case 'email':
-                $apiMode = 'email';
-                break;
-            case 'fallback':
-                if($helper->validateE164($telephone))
-                    $apiMode = 'sms';
-                else
-                    $apiMode = 'email';
-                break;
-        }
+        $recipientData = array(
+            'success' => false,
+            'api-mode' => 'email',
+            'phone-number' => $telephone
+        );
 
-        return $apiMode;
+        if($reviewMod == 'email') {
+            $recipientData['success']  = true;
+            $recipientData['api-mode'] = 'email';
+        } else {
+            if (substr($telephone, 0, 1) == '+') {
+                $recipientData['phone-number'] = $telephone;
+            } else if (substr($telephone, 0, 1) == '0') {
+                $telephone = $helper->addCountryCode($telephone, $country);
+            } else if ($helper->validateE164($telephone)) {
+                $telephone = $helper->addCountryCode($telephone, $country);
+            }
+
+            if ($helper->validateE164($telephone)) {
+                $recipientData['success']      = true;
+                $recipientData['api-mode']     = 'sms';
+                $recipientData['phone-number'] = $telephone;
+            } else {
+                switch ($reviewMod) {
+                    case 'sms':
+                        $recipientData['success']  = false;
+                        $recipientData['api-mode'] = 'sms';
+                        break;
+                    case 'fallback':
+                        $recipientData['success']  = true;
+                        $recipientData['api-mode'] = 'email';
+                        break;
+                }
+            }
+        };
+
+        return $recipientData;
     }
 }

@@ -66,4 +66,33 @@ class Ekomi_EkomiIntegration_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return false;
     }
+
+    /**
+     * @param $phone
+     * @param $country
+     *
+     * @return mixed|string
+     */
+    function addCountryCode($phone, $country)
+    {
+        $ApiUrl = 'https://plugins-dashboard.ekomiapps.de/api/v1/country-code';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $ApiUrl . '?shop_id=' . $this->getShopId() . '&interface_password=' . $this->getShopPassword() . '&country_code=' . $country);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $json = curl_exec($ch);
+        curl_close($ch);
+
+        $response = json_decode($json, true);
+        if($response['status']['type'] == 'success'){
+            $phoneCode = $response['data']['phone_code'];
+
+            if(substr($phone, 0 , 1) == '0') {
+                $phone = substr_replace($phone, $phoneCode, 0, 1);
+            } else if(substr($phone, 0 , 2) != $phoneCode) {
+                $phone = $phoneCode . $phone;
+            }
+
+            return $phone;
+        }
+    }
 }
