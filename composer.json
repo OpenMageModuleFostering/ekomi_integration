@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/eKomi_integration",
+    "name": "OpenMageModuleFostering\/eKomi_integration",
     "type": "magento-module",
     "license": "AFL",
     "homepage": "",
     "description": "This plugin allows you to integrate your magento shop easily with eKomi system to collect verified reviews. ",
     "authors": [
-    {
-        "name": "Abdullah Shah",
-        "email": "sbarics@ekomi.de"
-    }
-],
+        {
+            "name": "Abdullah Shah",
+            "email": "sbarics@ekomi.de"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
